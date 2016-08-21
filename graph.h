@@ -7,6 +7,8 @@ class Graph{
 	std::vector<Node *> nodes;
 public:
 	Graph(std::vector<Node *> nodes);
+	~Graph();
+	void printGraph();
 };
 
 #endif

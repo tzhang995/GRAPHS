@@ -11,6 +11,7 @@ public:
 	Node(std::string val, std::vector<Node *> adj);
 
 	void addAdjVertex(Node * node);
+	~Node();
 };
 
 #endif

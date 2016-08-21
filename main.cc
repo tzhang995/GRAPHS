@@ -32,7 +32,7 @@ int main(){
 
 		cin>>curVal;
 	}
-
+/*
 	map<string, Node *>::iterator it2;
 	//Now for the adjacency list
 	cout<<"Now input what each vertex is adjacent to, type done when you are finished for each vertex"<<endl;
@@ -50,6 +50,7 @@ int main(){
 			cin>>curVal;
 		}
 	}
-
+*/
 	Graph myGraph(listOfNodes);
+	myGraph.printGraph();
 }
