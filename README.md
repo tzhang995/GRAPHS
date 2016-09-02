@@ -6,6 +6,8 @@ Programmed in C++
 
 --Documentation--
 
-Run make
+Run make in terminal
+
 Any string but "done" can be a vertex
+
 Connect the Vertex, Rest of the instructions should be in the program
