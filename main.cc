@@ -56,6 +56,18 @@ int main(){
 
 	myGraph->printVertex();
 	myGraph->printEdge();
+	cout<<"What functions do you want to use? Type 'done' when you are done."<<endl;
+
+	while(cin>>curVal &&curVal != "done"){
+		if(curVal == "bfs"){
+			cout<<"What are the 2 values you want to use for bfs"<<endl;
+			string start;
+			string end;
+			cin>>start>>end;
+			myGraph->bfs(start,end);
+		}
+		cout<<"What functions do you want to use? Type 'done' when you are done."<<endl;
+	}
 
 	delete myGraph;
 }

@@ -12,6 +12,7 @@ public:
 	Node(std::string val);
 
 	void addAdjVertex(Node * node);
+
 	~Node();
 };
 
