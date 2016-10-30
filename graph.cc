@@ -8,13 +8,6 @@
 #include <stack>
 using namespace std;
 
-struct BFSProperty{
-	int color;
-	int distance;
-	Node * predecessor;
-	BFSProperty():color(0),distance(-1),predecessor(NULL){}
-};
-
 Graph::Graph(vector<Node *> nodes):nodes(nodes){}
 Graph::Graph(){}
 
@@ -60,51 +53,94 @@ Node * Graph::findNode(string s){
 void Graph::bfs(string start, string to){
 	Node * startNode = findNode(start);
 	if(startNode == NULL) throw "Start Node does not exist";
-	//white = 0, grey = 1, black = 2 
-	map<Node *,BFSProperty> graphMap;
+	Node * endNode = findNode(to);
+	if(endNode == NULL) throw "End Node does not exist";
 
 	for(vector<Node *>::iterator it = nodes.begin(); it != nodes.end(); it++){
-		graphMap[*it] = BFSProperty();
+		(*it)->color=0;
+		(*it)->distance=-1;
+		(*it)->predecessor=NULL;
 	}
 
-	graphMap[startNode].color = 1;
-	graphMap[startNode].distance = 0;
+	startNode->color=1;
+	startNode->distance = 0;
 
 	queue<Node *> myQueue;
 	myQueue.push(startNode);
 
 	Node * temp = NULL;
-	BFSProperty tempBFS;
-
+	bool found = false;
 	while(!myQueue.empty()){
 		temp = myQueue.front();
 		if(temp->value == to){
-			cout<<"The path is: ";
-			stack<Node *> pathStack;
-			while(temp != NULL){
-				pathStack.push(temp);
-				temp = graphMap[temp].predecessor;
-			}
-			while(pathStack.size() != 0){
-				temp = pathStack.top();
-				cout<<temp->value<<" ";
-				if(pathStack.size() >1){
-					cout<<"-> ";
-				}
-				pathStack.pop();
-			}
-			cout<<endl;
+			print_predecessor(temp);
+			found = true;
 			break;
 		}
 		for(vector<Node *>::iterator it = temp->adj.begin(); it != temp->adj.end(); it++){
-			if(graphMap[*it].color == 0){
-				graphMap[*it].color++;
-				graphMap[*it].distance = graphMap[temp].distance+1;
-				graphMap[*it].predecessor = temp;
+			if((*it)->color == 0){
+				(*it)->color++;
+				(*it)->distance = (*it)->distance+1;
+				(*it)->predecessor = temp;
 				myQueue.push(*it);
 			}
 		}
-		graphMap[temp].color = 2;
+		temp->color = 2;
 		myQueue.pop();
 	}
+	if(!found){
+		cout<<"Path is not found"<<endl;
+	} else {
+		cout<<"WOW"<<endl;
+	}
+}
+
+void Graph::dfs(string start,string end){
+	Node * startNode = findNode(start);
+	if(startNode == NULL) throw "Start Node does not exist";
+	Node * endNode = findNode(end);
+	if(endNode == NULL) throw "End Node does not exist";
+
+	for(vector<Node *>::iterator it = nodes.begin(); it != nodes.end(); it++){
+		(*it)->color=0;
+		(*it)->predecessor=NULL;
+	}
+
+	for(vector<Node *>::iterator it = nodes.begin(); it != nodes.end(); it++){
+		if((*it)->color == 0){
+			dfs_visit(*it,end);
+		}
+	}
+}
+
+void Graph::dfs_visit(Node * node,string end){
+	node->color=1;
+	for(vector<Node *>::iterator it = node->adj.begin();it != node->adj.end(); it++){
+		if((*it)->color==0){
+			(*it)->predecessor=node;
+			if((*it)->value ==end){
+				print_predecessor(*it);
+			}
+			dfs_visit(*it,end);
+		}
+	}
+	node->color=2;
+}
+
+void Graph::print_predecessor(Node* node){
+	cout<<"The path is: ";
+	stack<Node *> pathStack;
+	while(node != NULL){
+		pathStack.push(node);
+		node = node->predecessor;
+	}
+	while(pathStack.size() != 0){
+		node = pathStack.top();
+		cout<<node->value<<" ";
+		if(pathStack.size() >1){
+			cout<<"-> ";
+		}
+		pathStack.pop();
+	}
+	cout<<endl;
 }

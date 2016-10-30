@@ -4,6 +4,7 @@
 #include <iostream>
 #include "directed-graph.h"
 #include <string>
+#include <list>
 using namespace std;
 
 DirGraph::DirGraph(vector<Node *> nodes):Graph(nodes){}
@@ -47,4 +48,41 @@ void DirGraph::addEdge(string from, string to){
 
 	//I think that is all the checks
 	fromNode->adj.push_back(toNode);
+}
+
+void DirGraph::dfs(list<Node *> & myList){
+	for(vector<Node *>::iterator it = nodes.begin(); it != nodes.end(); it++){
+		(*it)->color = 0;
+		(*it)->distance = 0;
+		(*it)->predecessor = NULL;
+	}
+	int curTime = 0;
+	for(vector<Node *>::iterator it = nodes.begin(); it != nodes.end(); it++){
+		if((*it)->color == 0){
+			dfs_visit((*it), curTime, myList);
+		}
+	}
+}
+
+void DirGraph::dfs_visit(Node * node, int& curTime, list<Node *> & myList){
+	curTime++;
+	node->discovered = curTime;
+	node->color = 1;
+
+	for(vector<Node *>::iterator it = node->adj.begin(); it != node->adj.end(); it++){
+		if((*it)->color == 0){
+			(*it)->predecessor = node;
+			dfs_visit(*it, curTime, myList);
+		}
+	}
+	node->color = 2;
+	curTime++;
+	node->visited = curTime;
+	myList.push_front(node);
+}
+
+list<Node *> DirGraph::topSort(){
+	list<Node *> newList;
+	dfs(newList);
+	return newList;
 }

@@ -4,27 +4,18 @@ b
 c
 d
 e
-f
-g
 done
 b
-done
 c
-done
 d
 done
 e
 done
-f
+e
 done
-g
+e
 done
-a
 done
-bfs
-a g
-bfs
+dfs
 a e
-bfs
-a d
 done

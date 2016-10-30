@@ -6,6 +6,7 @@
 #include "node.h"
 #include "directed-graph.h"
 #include "undirected-graph.h"
+#include <list>
 
 using namespace std;
 
@@ -57,14 +58,43 @@ int main(){
 	myGraph->printVertex();
 	myGraph->printEdge();
 	cout<<"What functions do you want to use? Type 'done' when you are done."<<endl;
-
+	cout<<"Type h for help"<<endl;
 	while(cin>>curVal &&curVal != "done"){
-		if(curVal == "bfs"){
+		if(curVal=="h"){
+			cout<<"Type bfs for breadth first search"<<endl;
+			cout<<"Type dfs for depth first search"<<endl;
+			cout<<"Type topSort for topological sort, must be a directed graph"<<endl;
+		} else if(curVal == "bfs"){
 			cout<<"What are the 2 values you want to use for bfs"<<endl;
 			string start;
 			string end;
 			cin>>start>>end;
-			myGraph->bfs(start,end);
+			try{
+				myGraph->bfs(start,end);
+			} catch(const char * &e){
+				cout<<e<<endl;
+			}
+		} else if(curVal == "dfs"){
+			cout<<"What are the 2 values you want to use for dfs"<<endl;
+			string start;
+			string end;
+			cin>>start>>end;
+			try{
+				myGraph->dfs(start,end);
+			} catch(const char * &e){
+				cout<<e<<endl;
+			}
+		} else if(curVal == "topSort"){
+			DirGraph * dirGraph = dynamic_cast<DirGraph *>(myGraph);
+			if(dirGraph != NULL){
+				list<Node *> tsList = dirGraph->topSort();
+				cout<<"The topological order is:"<<endl;
+				for(list<Node*>::iterator it = tsList.begin(); it != tsList.end(); it++){
+					cout<<(*it)->value<<endl;
+				}
+			} else {
+				cout<<"Current graph is not a directed graph"<<endl;
+			}
 		}
 		cout<<"What functions do you want to use? Type 'done' when you are done."<<endl;
 	}

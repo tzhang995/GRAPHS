@@ -1,0 +1,41 @@
+u
+a
+b
+c
+d
+e
+f
+g
+done
+b
+done
+c
+done
+d
+done
+e
+done
+f
+done
+g
+done
+a
+done
+bfs
+a g
+bfs
+a e
+bfs
+a d
+bfs
+a k
+bfs
+g a
+dfs
+a c
+dfs
+a g
+dfs
+g a
+topSort
+done

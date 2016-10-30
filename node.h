@@ -7,7 +7,13 @@ class Node{
 public:
 	std::string value;
 	std::vector<Node *> adj;
-	
+	int color;
+	int distance;
+	Node * predecessor;
+
+	int discovered;
+	int visited;
+
 	Node(std::string val, std::vector<Node *> adj);
 	Node(std::string val);
 
